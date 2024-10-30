@@ -5,21 +5,20 @@ class Erddruck:
     """Berechnet die Erddruckordinate in abhängigkeit von der Wichte des Bodens,
     der Höhe der Wand und dem dimensionslosen Erddruckbeiwert"""
 
-    def __init__(self, gamma_k, h, K_a_g):
-        self.gamma_k = gamma_k  # [-]
-        self.h = h  # [m]
-        self.K_a_g = K_a_g  # [-]
-        # Erddruckordiante
-        self.e_g_a = self.berechne_e_g_h()  # [kN/m^2]
+    def __init__(self, gamma_k, h, K):
+        self.gamma_k = gamma_k  # [kN/m³] Wichte des Bodens
+        self.h = h  # [m] betrachtete Stelle
+        self.K = K  # [-] dimensionsloser Erddruckbeiwert
+        self.e_g = self.berechne_e_g()  # [kN/m^2] Erddruckordiante
 
-    def berechne_e_g_h(self):
+    def berechne_e_g(self):
         """
-        Berechnet die Erddruckordiante e_g_a.
+        Berechnet die Erddruckordiante e_g.
 
         :return: Die berechnete Erddruckordiante e_g_a.
         """
-        self.e_g_a = self.gamma_k * self.h * self.K_a_g
-        return self.e_g_a
+        self.e_g = self.gamma_k * self.h * self.K
+        return self.e_g
 
 
 class AktiverErddruckbeiwert:
@@ -72,3 +71,9 @@ class AktiverErddruckbeiwert:
         )
 
         return self.K_a_g
+
+
+# class Erddruckkraft:
+#     """Berechnet die Erddruckkraft E^a_g. Sie kann in eine horizontale
+#     komponente E^g_ah und eine vertikale Komponente E^h_av zerlegt werden."""
+#     def __init__(self, e_g_a, alpha, delta_a)

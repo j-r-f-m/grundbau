@@ -89,7 +89,7 @@ class TestAktiverErddruck(unittest.TestCase):
 
         expected_e_g_a = 44.0  # [kN/m²]
 
-        self.assertAlmostEqual(e_g_a.e_g_a, expected_e_g_a, 1)
+        self.assertAlmostEqual(e_g_a.e_g, expected_e_g_a, 1)
 
 
 if __name__ == "__main__":
