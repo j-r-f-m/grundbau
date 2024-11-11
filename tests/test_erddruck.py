@@ -8,7 +8,7 @@ sys.path.insert(
     0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "grundbau"))
 )
 
-from erddruck import AktiverErddruckbeiwert, Erddruck
+from erddruck import AktiverErddruckbeiwert, Erddruck, Erddruckkraft
 
 
 class TestAktiverErddruckbeiwert(unittest.TestCase):
@@ -90,6 +90,22 @@ class TestAktiverErddruck(unittest.TestCase):
         expected_e_g_a = 44.0  # [kN/m²]
 
         self.assertAlmostEqual(e_g_a.e_g, expected_e_g_a, 1)
+
+class TestErddruckkraft(unittest.TestCase):
+
+    def test_berechne_erddruckkraft(self):
+
+        e_g_a = 110 # [kN/m] erddruckkraft
+        alpha = 10 # [°]
+        delta_a = 24 # [°]
+
+        erddruckHorizontal = Erddruckkraft(e_g_a, alpha, delta_a)
+
+        expected_erddruckkraft_horizontal = 91.2 # [kN/m]
+        expected_erddruckkraft_vertikal = 61.5 # [kN/m]
+
+        self.assertAlmostEqual(erddruckHorizontal.e_g_ah, expected_erddruckkraft_horizontal, 1)
+        self.assertAlmostEqual(erddruckHorizontal.e_g_av, expected_erddruckkraft_vertikal, 1)
 
 
 if __name__ == "__main__":

@@ -73,7 +73,36 @@ class AktiverErddruckbeiwert:
         return self.K_a_g
 
 
-# class Erddruckkraft:
-#     """Berechnet die Erddruckkraft E^a_g. Sie kann in eine horizontale
-#     komponente E^g_ah und eine vertikale Komponente E^h_av zerlegt werden."""
-#     def __init__(self, e_g_a, alpha, delta_a)
+class Erddruckkraft:
+    """Berechnet die Erddruckkraft E^a_g. Sie kann in eine horizontale
+    komponente E^g_ah und eine vertikale Komponente E^h_av zerlegt werden."""
+    def __init__(self, e_g_a, alpha, delta_a):
+        self.e_g_a = e_g_a  # [kN/m] Erddruckkraft
+        self.alpha = alpha  # [°] Neigungswinkel der Wand   
+        self.delta_a = delta_a  # [°] Wandreibungswinkel
+        self.e_g_ah = self.berechne_e_g_ah()    # [kN/m] horizontale Komponente der Erddruckkraft
+        self.e_g_av = self.berechne_e_g_av()    # [kN/m] vertikale Komponente der Erddruckkraft
+
+    def berechne_e_g_ah(self):
+        """
+        Berechnet die horizontale Komponente der Erddruckkraft E^g_ah.
+        """
+
+        # Umrechnung von Grad in Bogenmaß
+        self.alpha_rad = math.radians(self.alpha)
+        self.delta_a_rad = math.radians(self.delta_a)
+
+        self.e_g_ah = self.e_g_a * math.cos(self.alpha_rad + self.delta_a_rad)
+        return self.e_g_ah
+    
+    def berechne_e_g_av(self):
+        """
+        Berechnet die vertikale Komponente der Erddruckkraft E^g_av.
+        """
+
+        # Umrechnung von Grad in Bogenmaß
+        self.alpha_rad = math.radians(self.alpha)
+        self.delta_a_rad = math.radians(self.delta_a)
+
+        self.e_g_av = self.e_g_a * math.sin(self.alpha_rad + self.delta_a_rad)
+        return self.e_g_av
