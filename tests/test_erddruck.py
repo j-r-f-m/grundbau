@@ -12,12 +12,12 @@ from erddruck import AktiverErddruckbeiwert, Erddruck, Erddruckkraft
 
 
 class TestAktiverErddruckbeiwert(unittest.TestCase):
-    """Aus "Grundbau in Beispielen Teil 1, Bsp. 6.14, S. 240. Es wird Kag
-    berechnet sowie die Zwischenergebnisse."""
+    """Es wird der aktive Erddruckbeiwert K^g_a berechnet  sowie die Zwischenergebnisse. Aus "Grundbau in Beispielen Teil 1, Bsp. 6.14, S. 240."""
 
     def test_berechne_K_a_g(self):
         objekt_1 = AktiverErddruckbeiwert(35, 10, 20, (2 / 3) * 35)
 
+        # Ergebnisse der einzelnen Terme
         expected_K_a_g = 0.44
         expected_delta_a = 23.33
         expected_cos_phi_k_minus_alpha_hoch = 0.82
@@ -72,7 +72,6 @@ class TestAktiverErddruckbeiwert(unittest.TestCase):
 class TestAktiverErddruck(unittest.TestCase):
 
     def test_berechne_e_g_a(self):
-
         phi_k = 35
         alpha = 10
         beta = 20
