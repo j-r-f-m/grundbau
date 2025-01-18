@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erddruck Calculator</title>
+</head>
+<body>
+    <h1>Erddruck Calculator</h1>
+    <form action="/calculate" method="post">
+        <label for="phi_k">phi_k:</label>
+        <input type="text" id="phi_k" name="phi_k"><br><br>
+        <label for="alpha">alpha:</label>
+        <input type="text" id="alpha" name="alpha"><br><br>
+        <label for="beta">beta:</label>
+        <input type="text" id="beta" name="beta"><br><br>
+        <label for="delta_a">delta_a:</label>
+        <input type="text" id="delta_a" name="delta_a"><br><br>
+        <input type="submit" value="Calculate">
+    </form>
+    {% if result is not none %}
+    <h1>Calculation Result</h1>
+    <p>The result is: {{ result }}</p>
+    {% endif %}
+</body>
+</html>
