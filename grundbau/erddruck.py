@@ -130,7 +130,7 @@ class Gleitflächenwinkel:
         self.alpha = alpha
         self.beta = beta
         self.delta_a = delta_a
-        self.g_a = self.berechne_g_a()
+        # self.g_a = self.berechne_g_a()
 
     def berechne_g_a(self) -> float:
         """
