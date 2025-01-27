@@ -71,6 +71,7 @@ class TestAktiverErddruckbeiwert(unittest.TestCase):
 
 class TestAktiverErddruck(unittest.TestCase):
 
+    # Aus Grundbau in Beispielen Teil 1, Bsp. 6.14, S. 240
     def test_berechne_e_g_a(self):
         phi_k = 35
         alpha = 10
@@ -93,6 +94,7 @@ class TestAktiverErddruck(unittest.TestCase):
 
 class TestErddruckkraft(unittest.TestCase):
 
+    # Aus Grundbau in Beispielen Teil 1, Bsp. 6.15, S. 241
     def test_berechne_erddruckkraft(self):
 
         e_g_a = 110  # [kN/m] erddruckkraft
@@ -114,11 +116,16 @@ class TestErddruckkraft(unittest.TestCase):
 
 class TestGleitflächenwinkel(unittest.TestCase):
 
+    # Aus Grundbau in Beispielen Teil 1, Bsp. 6.16, S. 241
     def test_berechne_gleitflächenwinkel(self):
 
         objekt = Gleitflächenwinkel(35, 10, 20, 23.33)
+
+        expected_g_a = 55.8  # [°]
+
+        self.assertAlmostEqual(objekt.g_a, expected_g_a, 1)
         print(objekt.phi_k)
-        print(objekt.cos_phi_k_minus_alpha)
+        print(objekt.g_a)
 
 
 if __name__ == "__main__":

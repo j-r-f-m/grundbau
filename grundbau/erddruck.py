@@ -29,6 +29,7 @@ class AktiverErddruckbeiwert:
         :param phi_k: Winkel phi_k in Grad
         :param alpha: Winkel alpha in Grad
         :param beta: Winkel beta in Grad
+        :param delta_a: Winkel delta_a in Grad
         """
         self.phi_k = phi_k  # [°]
         self.alpha = alpha  # [°]
@@ -140,7 +141,7 @@ class Gleitflächenwinkel:
         self.alpha = alpha
         self.beta = beta
         self.delta_a = delta_a
-        # self.g_a = self.berechne_g_a()
+        self.g_a = self.berechne_g_a()
 
     def berechne_g_a(self) -> float:
         """
