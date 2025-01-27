@@ -57,10 +57,20 @@ class AktiverErddruckbeiwert:
         self.sin_phi_k_minus_beta = math.sin(self.phi_k_rad - self.beta_rad)
         self.cos_alpha_minus_beta = math.cos(self.alpha_rad - self.beta_rad)
 
+        # Überprüfung auf Division durch Null
+        if self.cos_alpha_plus_delta_a == 0 or self.cos_alpha_minus_beta == 0:
+            raise ValueError(
+                "Ungültige Winkelkombination: Division durch Null möglich."
+            )
+
         # Berechnung des Bruchs innerhalb der Wurzel
         self.bruch_in_wurzel = (
             self.sin_phi_k_plus_delta_a * self.sin_phi_k_minus_beta
         ) / (self.cos_alpha_plus_delta_a * self.cos_alpha_minus_beta)
+
+        # Überprüfung, ob der Wurzelwert nicht negativ ist
+        if self.bruch_in_wurzel < 0:
+            raise ValueError("Ungültige Winkelkombination: Negativer Wurzelwert.")
 
         # Berechnung der Wurzel
         self.wurzel = math.sqrt(self.bruch_in_wurzel)
