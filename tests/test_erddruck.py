@@ -12,14 +12,22 @@ from erddruck import AktiverErddruckbeiwert, Erddruck, Erddruckkraft, Gleitfläc
 
 
 class TestAktiverErddruckbeiwert(unittest.TestCase):
-    """Es wird der aktive Erddruckbeiwert K^g_a berechnet  sowie die Zwischenergebnisse. Aus "Grundbau in Beispielen Teil 1, Bsp. 6.14, S. 240."""
 
     def test_berechne_K_a_g(self):
+        """
+        Mit Hilfe des Testfalls wurde die Berechnung des
+        aktiven Erddruckbeiwerts implementiert. Die einzelnen Terme werden
+        getestet, um Fehler bei der Implementierung schneller zu finden.
+
+        Aus "Grundbau in Beispielen Teil 1, Beispiel 6.14, S. 240."
+        """
         objekt_1 = AktiverErddruckbeiwert(35, 10, 20, (2 / 3) * 35)
 
-        # Ergebnisse der einzelnen Terme
+        # Erwarteter Wert des aktiven Erddruckbeiwerts
         expected_K_a_g = 0.44
+        # Erwarteter Wert des Winkels delta_a
         expected_delta_a = 23.33
+        # Ergebnisse der einzelnen Terme per Hand berechnet
         expected_cos_phi_k_minus_alpha_hoch = 0.82
         expected_cos_alpha_hoch = 0.97
         expected_cos_alpha_plus_delta_a = 0.84
@@ -47,7 +55,11 @@ class TestAktiverErddruckbeiwert(unittest.TestCase):
         )
 
     def test_berechne_K_a_g_2(self):
-        """Aus "Grundbau in Beispielen Teil 1, Tabelle 6.13, S. 239."""
+        """
+        Aus "Grundbau in Beispielen Teil 1, Tabelle 6.13, S. 239.
+        Exemplarisch werden Werte für den aktiven Erddruckbeiwert berechnet und
+        mit Tabellenwerten verglichen.
+        """
         # phi_k = 15, alpha = 0, beta = 0, delta_a = 2/3*phi_k
         objekt_1 = AktiverErddruckbeiwert(15, 0, 0, (2 / 3) * 15)
         expected_K_a_g = 0.53
@@ -126,6 +138,27 @@ class TestGleitflächenwinkel(unittest.TestCase):
         self.assertAlmostEqual(objekt.g_a, expected_g_a, 1)
         print(objekt.phi_k)
         print(objekt.g_a)
+
+
+class TestUnbegrenzteFlächenlast(unittest.TestCase):
+
+    def test_berechne_aktiven_Erddruck(self):
+        """
+        Aus "Grundbau in Beispielen Teil 1, Beispiel 6.17, S. 242.
+
+        HIER FORTFAHREN
+        """
+
+        obj_aktErdBei = AktiverErddruckbeiwert(30, 0, 0, (2 / 3) * 30)
+        obj_Erddruck = Erddruck(18, 5, 0.3)
+
+        expected_K_a_g = 0.3
+        expected_e_g_a = 27
+
+        self.assertAlmostEqual(obj_aktErdBei.K_a_g, expected_K_a_g, 1)
+        self.assertAlmostEqual(obj_Erddruck.e_g, expected_e_g_a, 0)
+        print(obj_aktErdBei.K_a_g)
+        print(obj_Erddruck.e_g)
 
 
 if __name__ == "__main__":
