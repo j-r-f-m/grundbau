@@ -8,7 +8,13 @@ sys.path.insert(
     0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "grundbau"))
 )
 
-from erddruck import AktiverErddruckbeiwert, Erddruck, Erddruckkraft, Gleitflächenwinkel
+from erddruck import (
+    AktiverErddruckbeiwert,
+    Erddruck,
+    Erddruckkraft,
+    Gleitflächenwinkel,
+    ErddruckAuflastUnbegrenzt,
+)
 
 
 class TestAktiverErddruckbeiwert(unittest.TestCase):
@@ -151,14 +157,20 @@ class TestUnbegrenzteFlächenlast(unittest.TestCase):
 
         obj_aktErdBei = AktiverErddruckbeiwert(30, 0, 0, (2 / 3) * 30)
         obj_Erddruck = Erddruck(18, 5, 0.3)
+        obj_ErddruckAuflastUnbegrenzt = ErddruckAuflastUnbegrenzt(
+            30, obj_aktErdBei.K_a_g
+        )
 
         expected_K_a_g = 0.3
         expected_e_g_a = 27
+        excepted_e_g_p = 9
 
         self.assertAlmostEqual(obj_aktErdBei.K_a_g, expected_K_a_g, 1)
         self.assertAlmostEqual(obj_Erddruck.e_g, expected_e_g_a, 0)
+        self.assertAlmostEqual(obj_ErddruckAuflastUnbegrenzt.e_g_p, excepted_e_g_p, 0)
         print(obj_aktErdBei.K_a_g)
         print(obj_Erddruck.e_g)
+        print(obj_ErddruckAuflastUnbegrenzt.e_g_p)
 
 
 if __name__ == "__main__":
