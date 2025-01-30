@@ -124,9 +124,6 @@ class Erddruckkraft:
         return self.e_g_av
 
 
-import math
-
-
 class Gleitflächenwinkel:
     def __init__(self, phi_k: float, alpha: float, beta: float, delta_a: float):
         """
@@ -197,3 +194,26 @@ class Gleitflächenwinkel:
         g_a = self.phi_k + math.degrees(math.atan(bruch))
 
         return g_a
+
+
+class ErddruckAuflastUnbegrenzt:
+    def __init__(self, p: float, k_a_g: float):
+        """
+        Berechnet den Erddruck infolge einer unbegrenzten Fläachenlast p
+        [kN/m²].
+
+        :param p: Auflast p in kN/m²
+        :param k_a_g: Aktiver Erddruckbeiwert K_a^g
+        """
+        self.p = p  # [kN/m²]
+        self.k_a_g = k_a_g  # [-]
+        self.e_g = self.berechne_e_g()  # [kN/m²]
+
+    def berechne_e_p_a(self) -> float:
+        """
+        Berechnet den Erddruck e_g infolge einer unbegrenzten Flächenlast p.
+
+        :return: Der berechnete Erddruck e_g
+        """
+        e_g = self.p * self.k_a_g
+        return e_g
