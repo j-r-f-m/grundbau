@@ -138,3 +138,5 @@ cython_debug/
 
 # Ignore Jupyter Notebook files
 *.ipynb
+
+notebooks/
