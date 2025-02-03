@@ -14,6 +14,7 @@ from erddruck import (
     Erddruckkraft,
     Gleitflächenwinkel,
     ErddruckAuflastUnbegrenzt,
+    ErddruckVerlauf,
 )
 
 
@@ -97,11 +98,13 @@ class TestAktiverErddruck(unittest.TestCase):
         delta_a = 2 / 3 * phi_k
         gamma_k = 20
         h = 5
+        step = 1
 
         K_g_a = AktiverErddruckbeiwert(phi_k, alpha, beta, delta_a)
         e_g_a = Erddruck(
             gamma_k,
             h,
+            step,
             K_g_a.K_a_g,
         )
 
@@ -171,6 +174,15 @@ class TestUnbegrenzteFlächenlast(unittest.TestCase):
         print(obj_aktErdBei.K_a_g)
         print(obj_Erddruck.e_g)
         print(obj_ErddruckAuflastUnbegrenzt.e_g_p)
+
+
+class TestErddruckVerlauf(unittest.TestCase):
+
+    # Aus Grundbau in Beispielen Teil 1, Bsp. 6.15, S. 241
+    def test_berechne_erddruckverlauf(self):
+
+        obj_erddruckVerlauf = ErddruckVerlauf(20, 5, 0.5, 0.3)
+        print(obj_erddruckVerlauf.h_ordinaten)
 
 
 if __name__ == "__main__":

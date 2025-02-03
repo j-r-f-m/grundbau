@@ -1,24 +1,55 @@
 import math
+import numpy as np
 
 
 class Erddruck:
     """Berechnet die Erddruckordinate in abhängigkeit von der Wichte des Bodens,
     der Höhe der Wand und dem dimensionslosen Erddruckbeiwert"""
 
-    def __init__(self, gamma_k, h, K):
+    def __init__(self, gamma_k, h, step, K):
         self.gamma_k = gamma_k  # [kN/m³] Wichte des Bodens
-        self.h = h  # [m] betrachtete Stelle
+        self.h = h  # [m] betrachtete Stelle bzw. Höhe der Wand
+        self.step = step  # [m] Schrtitweite
         self.K = K  # [-] dimensionsloser Erddruckbeiwert
         self.e_g = self.berechne_e_g()  # [kN/m^2] Erddruckordiante
+        self.e_g_verlauf = []  # [kN/m^2] Erddruckverlauf
 
     def berechne_e_g(self):
         """
-        Berechnet die Erddruckordiante e_g.
+        Berechnet die Erddruckordiante e_g für eine gegebene Höhe
 
         :return: Die berechnete Erddruckordiante e_g_a.
         """
         self.e_g = self.gamma_k * self.h * self.K
         return self.e_g
+
+
+class ErddruckVerlauf:
+    """Berechnet den Erddruckverlauf für eine gegebene Höhe"""
+
+    def __init__(self, gamma_k, h, step, K):
+        self.gamma_k = gamma_k  # [kN/m³] Wichte des Bodens
+        self.h = h  # [m] betrachtete Stelle bzw. Höhe der Wand
+        self.step = step  # [m] Schrtitweite
+        self.K = K  # [-] dimensionsloser Erddruckbeiwert
+        self.e_g_ordinaten = []  # [kN/m^2] Erddruckverlauf - x-Achse
+        self.h_ordinaten = np.arange(0, self.h, self.step)  # [m] Höhenverlauf - y-Achse
+
+    def erstelleArrays(self):
+        """
+        Erstellt die Arrays für den Erddruckverlauf
+        """
+
+    # def berechne_e_g_verlauf(self):
+    #     """
+    #     Berechnet den Erddruckverlauf für eine gegebene Höhe
+
+    #     :return: Der berechnete Erddruckverlauf
+    #     """
+
+    #     for i in range(0, int(self.h), self.step):
+    #         self.e_g_verlauf.append(self.berechne_e_g())
+    #     return self.e_g_verlauf
 
 
 class AktiverErddruckbeiwert:
