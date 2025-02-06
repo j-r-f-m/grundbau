@@ -25,20 +25,53 @@ class Erddruck:
 
 
 class ErddruckVerlauf:
-    """Berechnet den Erddruckverlauf für eine gegebene Höhe"""
+    """
+    Berechnet den Erddruckverlauf für eine gegebene Höhe
+    params:
+    gamma_k: Wichte des Bodens
+    h: betrachtete Stelle bzw. Höhe der Wand
+    step: Schrtitweite
+    K: dimensionsloser Erddruckbeiwert
+    """
 
     def __init__(self, gamma_k, h, step, K):
+        """
+        Initialisiert die BerechneKAG-Klasse mit den gegebenen Parametern.
+
+        :param gamma_k: Wichte des Bodens in kN/m³
+        :param h: Höhe der Wand in m
+        :param step: Schrittweite in m
+        :param K: dimensionsloser Erddruckbeiwert
+        """
         self.gamma_k = gamma_k  # [kN/m³] Wichte des Bodens
         self.h = h  # [m] betrachtete Stelle bzw. Höhe der Wand
         self.step = step  # [m] Schrtitweite
         self.K = K  # [-] dimensionsloser Erddruckbeiwert
+        # self.e_g = self.berechne_e_g()  # [kN/m^2] Erddruckordiante
         self.e_g_ordinaten = []  # [kN/m^2] Erddruckverlauf - x-Achse
-        self.h_ordinaten = np.arange(0, self.h, self.step)  # [m] Höhenverlauf - y-Achse
+        self.h_ordinaten = np.linspace(
+            0, self.h, self.step
+        )  # [m] Höhenverlauf - y-Achse
+        self.y_koordinaten = (
+            self.erstelleVerlauf()
+        )  # [kN/m^2] Erddruckverlauf - y-Achse
 
-    def erstelleArrays(self):
+    def berechne_e_g(self, h):
+        """
+        Berechnet die Erddruckordiante e_g für eine gegebene Höhe
+
+        :return: Die berechnete Erddruckordiante e_g_a.
+        """
+        self.e_g = self.gamma_k * h * self.K
+        return self.e_g
+
+    def erstelleVerlauf(self):
         """
         Erstellt die Arrays für den Erddruckverlauf
         """
+        vectorized_function = np.vectorize(self.berechne_e_g)
+        self.y_koordinaten = vectorized_function(self.h_ordinaten)
+        return self.y_koordinaten
 
     # def berechne_e_g_verlauf(self):
     #     """

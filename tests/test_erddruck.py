@@ -181,8 +181,14 @@ class TestErddruckVerlauf(unittest.TestCase):
     # Aus Grundbau in Beispielen Teil 1, Bsp. 6.15, S. 241
     def test_berechne_erddruckverlauf(self):
 
-        obj_erddruckVerlauf = ErddruckVerlauf(20, 5, 0.5, 0.3)
+        obj_erddruckVerlauf = ErddruckVerlauf(20, 5, 50, 0.44)
+
+        excepted_e_g_ = 44.0  # [kN/m²]
+
+        self.assertAlmostEqual(obj_erddruckVerlauf.e_g, excepted_e_g_, 1)
+
         print(obj_erddruckVerlauf.h_ordinaten)
+        print(obj_erddruckVerlauf.y_koordinaten)
 
 
 if __name__ == "__main__":
