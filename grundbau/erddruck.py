@@ -6,15 +6,13 @@ class Erddruck:
     """Berechnet die Erddruckordinate in abhängigkeit von der Wichte des Bodens,
     der Höhe der Wand und dem dimensionslosen Erddruckbeiwert"""
 
-    def __init__(self, gamma_k, h, step, K):
+    def __init__(self, gamma_k: float, h: float, K: float):
         self.gamma_k = gamma_k  # [kN/m³] Wichte des Bodens
         self.h = h  # [m] betrachtete Stelle bzw. Höhe der Wand
-        self.step = step  # [m] Schrtitweite
         self.K = K  # [-] dimensionsloser Erddruckbeiwert
         self.e_g = self.berechne_e_g()  # [kN/m^2] Erddruckordiante
-        self.e_g_verlauf = []  # [kN/m^2] Erddruckverlauf
 
-    def berechne_e_g(self):
+    def berechne_e_g(self) -> float:
         """
         Berechnet die Erddruckordiante e_g für eine gegebene Höhe
 
@@ -34,7 +32,7 @@ class ErddruckVerlauf:
     K: dimensionsloser Erddruckbeiwert
     """
 
-    def __init__(self, gamma_k, h, step, K):
+    def __init__(self, gamma_k: float, h: float, step: float, K: float):
         """
         Initialisiert die BerechneKAG-Klasse mit den gegebenen Parametern.
 
@@ -48,15 +46,15 @@ class ErddruckVerlauf:
         self.step = step  # [m] Schrtitweite
         self.K = K  # [-] dimensionsloser Erddruckbeiwert
         # self.e_g = self.berechne_e_g()  # [kN/m^2] Erddruckordiante
-        self.e_g_ordinaten = []  # [kN/m^2] Erddruckverlauf - x-Achse
-        self.h_ordinaten = np.linspace(
+
+        self.h_koordinaten = np.linspace(
             0, self.h, self.step
         )  # [m] Höhenverlauf - y-Achse
         self.y_koordinaten = (
             self.erstelleVerlauf()
         )  # [kN/m^2] Erddruckverlauf - y-Achse
 
-    def berechne_e_g(self, h):
+    def berechne_e_g(self, h) -> float:
         """
         Berechnet die Erddruckordiante e_g für eine gegebene Höhe
 
@@ -65,28 +63,22 @@ class ErddruckVerlauf:
         self.e_g = self.gamma_k * h * self.K
         return self.e_g
 
-    def erstelleVerlauf(self):
+    def erstelleVerlauf(self) -> np.ndarray:
         """
         Erstellt die Arrays für den Erddruckverlauf
         """
         vectorized_function = np.vectorize(self.berechne_e_g)
-        self.y_koordinaten = vectorized_function(self.h_ordinaten)
+        self.y_koordinaten = vectorized_function(self.h_koordinaten)
         return self.y_koordinaten
-
-    # def berechne_e_g_verlauf(self):
-    #     """
-    #     Berechnet den Erddruckverlauf für eine gegebene Höhe
-
-    #     :return: Der berechnete Erddruckverlauf
-    #     """
-
-    #     for i in range(0, int(self.h), self.step):
-    #         self.e_g_verlauf.append(self.berechne_e_g())
-    #     return self.e_g_verlauf
 
 
 class AktiverErddruckbeiwert:
-    def __init__(self, phi_k, alpha, beta, delta_a):
+    """
+    Berechnet den aktiven Erddruckbeiwert K_a^g für eine gegebene
+    Winkelkombination.
+    """
+
+    def __init__(self, phi_k: float, alpha: float, beta: float, delta_a: float):
         """
         Initialisiert die BerechneKAG-Klasse mit den gegebenen Winkeln in Grad.
 
@@ -101,7 +93,7 @@ class AktiverErddruckbeiwert:
         self.delta_a = delta_a  # [°]
         self.K_a_g = self.berechne_K_a_g()  # [-]
 
-    def berechne_K_a_g(self):
+    def berechne_K_a_g(self) -> float:
         """
         Berechnet den Wert von K_a^g basierend auf den gegebenen Winkeln.
 
@@ -152,7 +144,7 @@ class Erddruckkraft:
     """Berechnet die Erddruckkraft E^a_g. Sie kann in eine horizontale
     komponente E^g_ah und eine vertikale Komponente E^h_av zerlegt werden."""
 
-    def __init__(self, e_g_a, alpha, delta_a):
+    def __init__(self, e_g_a: float, alpha: float, delta_a: float):
         self.e_g_a = e_g_a  # [kN/m] Erddruckkraft
         self.alpha = alpha  # [°] Neigungswinkel der Wand
         self.delta_a = delta_a  # [°] Wandreibungswinkel
@@ -163,7 +155,7 @@ class Erddruckkraft:
             self.berechne_e_g_av()
         )  # [kN/m] vertikale Komponente der Erddruckkraft
 
-    def berechne_e_g_ah(self):
+    def berechne_e_g_ah(self) -> float:
         """
         Berechnet die horizontale Komponente der Erddruckkraft E^g_ah.
         """
@@ -175,7 +167,7 @@ class Erddruckkraft:
         self.e_g_ah = self.e_g_a * math.cos(self.alpha_rad + self.delta_a_rad)
         return self.e_g_ah
 
-    def berechne_e_g_av(self):
+    def berechne_e_g_av(self) -> float:
         """
         Berechnet die vertikale Komponente der Erddruckkraft E^g_av.
         """

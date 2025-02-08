@@ -98,13 +98,11 @@ class TestAktiverErddruck(unittest.TestCase):
         delta_a = 2 / 3 * phi_k
         gamma_k = 20
         h = 5
-        step = 1
 
         K_g_a = AktiverErddruckbeiwert(phi_k, alpha, beta, delta_a)
         e_g_a = Erddruck(
             gamma_k,
             h,
-            step,
             K_g_a.K_a_g,
         )
 
@@ -187,7 +185,7 @@ class TestErddruckVerlauf(unittest.TestCase):
 
         self.assertAlmostEqual(obj_erddruckVerlauf.e_g, excepted_e_g_, 1)
 
-        print(obj_erddruckVerlauf.h_ordinaten)
+        print(obj_erddruckVerlauf.h_koordinaten)
         print(obj_erddruckVerlauf.y_koordinaten)
 
 
