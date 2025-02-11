@@ -149,18 +149,16 @@ class TestGleitflächenwinkel(unittest.TestCase):
 
 class TestUnbegrenzteFlächenlast(unittest.TestCase):
 
-    def test_berechne_aktiven_Erddruck(self):
+    def test_berechne_ErddruckAuflastUnbegrenzt(self):
         """
         Aus "Grundbau in Beispielen Teil 1, Beispiel 6.17, S. 242.
 
-        HIER FORTFAHREN
+
         """
 
         obj_aktErdBei = AktiverErddruckbeiwert(30, 0, 0, (2 / 3) * 30)
         obj_Erddruck = Erddruck(18, 5, 0.3)
-        obj_ErddruckAuflastUnbegrenzt = ErddruckAuflastUnbegrenzt(
-            30, obj_aktErdBei.K_a_g
-        )
+        obj_ErddruckAuflastUnbegrenzt = ErddruckAuflastUnbegrenzt(30, 0.3, 5, 20)
 
         expected_K_a_g = 0.3
         expected_e_g_a = 27
@@ -172,6 +170,8 @@ class TestUnbegrenzteFlächenlast(unittest.TestCase):
         print(obj_aktErdBei.K_a_g)
         print(obj_Erddruck.e_g)
         print(obj_ErddruckAuflastUnbegrenzt.e_g_p)
+        print(obj_ErddruckAuflastUnbegrenzt.h_koordinaten)
+        print(obj_ErddruckAuflastUnbegrenzt.y_koordinaten)
 
 
 class TestErddruckVerlauf(unittest.TestCase):

@@ -50,9 +50,8 @@ class ErddruckVerlauf:
         self.h_koordinaten = np.linspace(
             0, self.h, self.step
         )  # [m] Höhenverlauf - y-Achse
-        self.y_koordinaten = (
-            self.erstelleVerlauf()
-        )  # [kN/m^2] Erddruckverlauf - y-Achse
+        self.y_koordinaten = self.erstelleVerlauf()
+        # [kN/m^2] Erddruckverlauf - y-Achse
 
     def berechne_e_g(self, h) -> float:
         """
@@ -253,7 +252,13 @@ class Gleitflächenwinkel:
 
 
 class ErddruckAuflastUnbegrenzt:
-    def __init__(self, p: float, k_g: float):
+    def __init__(
+        self,
+        p: float,
+        k_g: float,
+        h: float,
+        step: float,
+    ):
         """
         Berechnet den Erddruck infolge einer unbegrenzten Fläachenlast p
         [kN/m²].
@@ -261,9 +266,15 @@ class ErddruckAuflastUnbegrenzt:
         :param p: Auflast p in kN/m²
         :param k_g: Erddruckbeiwert (aktiv, usw.)
         """
-        self.p = p  # [kN/m²]
-        self.k_g = k_g  # [-]
+        self.p = p  # [kN/m²] Unbegrenzte Flächenlast
+        self.k_g = k_g  # [-] Erddruckbeiwert
+        self.h = h  # [m]   Höhe der Wand
+        self.step = step  # [m] Schrittweite
         self.e_g_p = self.berechne_e_p_a()  # [kN/m²]
+        self.h_koordinaten = np.linspace(0, self.h, self.step)
+        self.y_koordinaten = np.full(
+            self.h_koordinaten.size, self.e_g_p
+        )  # [kN/m^2] Erddruckverlauf - y-Achse
 
     def berechne_e_p_a(self) -> float:
         """
